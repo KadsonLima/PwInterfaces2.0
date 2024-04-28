@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './assets/styles/custom-theme.scss';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-right: 0px !important;
+}
+
+.p-toast {
+  z-index: 10000; 
+}

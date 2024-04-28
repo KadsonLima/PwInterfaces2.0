@@ -1,0 +1,77 @@
+<div class="flex gap-3" fxLayout="row" fxLayoutAlign="start stretch">
+    <!-- Lado esquerdo: Formulário -->
+    <div class="flex-1 center">
+        <mat-card>
+            <mat-card-header style="margin-bottom: 10px;">
+                <mat-card-title>Formulário de Serviços</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- Seu formulário aqui -->
+                <form class="flex flex-col" [formGroup]="formGroup" (submit)="onSubmit()" [noValidate]="false">
+                    <mat-form-field >
+                        <mat-label>Nome</mat-label>
+                        <input matInput formControlName="nome" placeholder="Nome">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" placeholder="Email">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Contato</mat-label>
+                        <input matInput formControlName="contato" placeholder="Contato" mask="(00) 0 0000-0000">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Servidor/Versão</mat-label>
+                        <input matInput formControlName="servidor" placeholder="Servidor e Versão ex: PW Xobla - 1.5.5">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Tipo de Serviço</mat-label>
+                        <select formControlName="service" matNativeControl required>
+                            <option value="converter">Conversão</option>
+                            <option value="suporte">Suporte</option>
+                            <option value="custom">Customização UI</option>
+                            <option value="custom-guild">Customização UI Guild</option>
+                        </select>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Descrição</mat-label>
+                        <textarea matInput formControlName="description" placeholder="Ex. Interface do Time..." (resize)="false" rows="4"></textarea>
+                    </mat-form-field>
+                    <!-- Adicione mais campos do formulário conforme necessário -->
+                    <button mat-flat-button color="primary" [disabled]="isLoading">
+                        <ng-container *ngIf="isLoading; else sendButtonContent">
+                          <mat-spinner diameter="20" color="accent"></mat-spinner>
+                        </ng-container>
+                        <ng-template #sendButtonContent>
+                          Enviar
+                        </ng-template>
+                      </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <p-toast baseZIndex="99999"/>
+    <!-- Lado direito: Tabela -->
+    <div style="width: 20%;">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Fila de Projetos</mat-card-title>
+            </mat-card-header>
+            <mat-list>
+                @for (message of dataSource; track message) {
+                <mat-list-item>
+                    <div class="flex justify-between">
+                        <span>{{message.nome}}</span>
+                        <span class="status" [class]="message.status">{{message.status}}</span>
+                    </div>
+                </mat-list-item>
+                }
+            </mat-list>
+        </mat-card>
+    </div>
+</div>

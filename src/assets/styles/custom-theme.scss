@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+// Define os valores mais escuros para a paleta primária e de destaque
+$red-palette-dark: mat.define-palette(mat.$red-palette, 800, 700, 900);
+
+// Define os valores mais escuros para a paleta de destaque
+$red-accent-palette-dark: mat.define-palette(mat.$red-palette, A200, A200, A700);
+
+// Define a paleta de alerta com valores mais escuros
+$ng-taildash-warn-dark: mat.define-palette(mat.$red-palette, 800, 700, 900);
+
+// Crie o objeto de tema com as paletas mais escuras
+$ng-taildash-theme-dark: mat.define-dark-theme(
+  (
+    color: (
+      primary: $red-palette-dark,
+      accent: $red-accent-palette-dark,
+      warn: $ng-taildash-warn-dark,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+// Inclua os estilos do tema para todos os componentes
+@include mat.all-component-themes($ng-taildash-theme-dark);
+
+// Defina as variáveis de cor para uso no seu aplicativo
+$primary: map-get($red-palette-dark, 500);
+$accent: map-get($red-accent-palette-dark, 500);
+$warn: map-get($ng-taildash-warn-dark, 500);
