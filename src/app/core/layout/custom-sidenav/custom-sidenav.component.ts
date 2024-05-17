@@ -133,5 +133,6 @@ export class CustomSidenavComponent {
     },
     { icon: "dashboard", label: "Galeria", routerLink: ["galeria"] },
     { icon: "shopping_cart", label: "Loja", routerLink: ["shop"] },
+    { icon: "price_check", label: "Pagamento", routerLink: ["pagamento"] },
   ]);
 }

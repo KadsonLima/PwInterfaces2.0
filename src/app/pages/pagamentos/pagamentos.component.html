@@ -1,0 +1,90 @@
+<div class="flex gap-3" fxLayout="row" fxLayoutAlign="start stretch">
+    <!-- Lado esquerdo: Formulário -->
+    <div class="flex-1 center">
+        <mat-card *ngIf="!interfaceService.pagamento">
+            <mat-card-header style="margin-bottom: 30px;">
+                <mat-card-title>Resgatar Interface</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- Seu formulário aqui -->
+                <form class="flex flex-col" [formGroup]="formGroup" (submit)="onSubmit()" [noValidate]="true">
+                    <mat-form-field>
+                        <mat-label>Hash de Pagamento</mat-label>
+                        <input matInput formControlName="hashPagamento" placeholder="Hash de Pagamento">
+                    </mat-form-field>
+
+                    <!-- Adicione mais campos do formulário conforme necessário -->
+                    <button mat-flat-button color="primary" [disabled]="isLoading" (click)="onSubmit()">
+                        <ng-container *ngIf="isLoading; else sendButtonContent">
+                            <mat-spinner diameter="20" color="accent"></mat-spinner>
+                        </ng-container>
+                        <ng-template #sendButtonContent>
+                            Enviar
+                        </ng-template>
+                    </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card *ngIf="interfaceService.pagamento">
+            <mat-card-header style="margin-bottom: 10px;">
+                <mat-card-title>{{(interfaceService.pagamento.description).toUpperCase()}}</mat-card-title>
+
+            </mat-card-header>
+
+            <mat-card-content style="align-items: center;">
+                <form class="flex flex-col" [formGroup]="formGroup" (submit)="onSubmit()" [noValidate]="true">
+
+                    <div class="flex gap-3 padding-2" style="align-items: initial;">
+                        <img src={{interfaceService.pagamento.additional_info.items[0].picture_url}} width="auto"
+                            style="border-radius: 15px; max-width: 200px; max-height:200px ; border: 2px solid red; object-fit: cover;" />
+                        <div style="width: 100%;">
+                  
+                            <div style=" display: flex; justify-content: center; align-items: center;">
+                                <mat-spinner *ngIf="!interfaceService?.dadosUser" />
+                            </div>
+
+
+                            <div *ngIf="interfaceService?.dadosUser">
+                                <p> <strong>User:</strong> {{interfaceService.dadosUser?.nome}}</p>
+                                <p><strong>Email:</strong> {{interfaceService.dadosUser?.email}}</p>
+                                <p><strong>id Transação:</strong> {{interfaceService.dadosUser?.idTransation}}</p>
+                                <p><strong>Interface:</strong> {{interfaceService.dadosUser?.interface}}</p>
+                                <p><strong>Status:</strong> {{interfaceService.dadosUser?.status}}</p>
+                                <p><strong>Codigo de Acesso:</strong> {{interfaceService.dadosUser?.codigoUser}}</p>
+                            </div>
+
+
+                            <div style="margin-top: 10px;" *ngIf=" interfaceService?.dadosUser?.status == 'PAGO' && interfaceService?.dadosUser?.codigoUser == ''" >
+                                <form class="flex flex-col" [formGroup]="registrarUserForm" (submit)="onSubmit()" [noValidate]="true">
+                                    <h1>Registrar Interface e Acesso User</h1>
+
+                                    <mat-form-field>
+                                        <mat-label>Codigo de Acesso</mat-label>
+                                        <input matInput formControlName="acessoCodigo" placeholder="Hash de Pagamento">
+                                    </mat-form-field>
+                
+                                    <!-- Adicione mais campos do formulário conforme necessário -->
+                                    <button mat-flat-button color="primary" [disabled]="isLoading" (click)="onSubmit()">
+                                        <ng-container *ngIf="isLoading; else sendButtonContent">
+                                            <mat-spinner diameter="20" color="accent"></mat-spinner>
+                                        </ng-container>
+                                        <ng-template #sendButtonContent>
+                                            Enviar
+                                        </ng-template>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    
+                </form>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+
+</div>

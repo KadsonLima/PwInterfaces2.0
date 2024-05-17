@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,7 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ListboxModule } from 'primeng/listbox';
 import { TableModule } from 'primeng/table';
 import { RequestService } from '../../services/request.service';
-import { API_URL } from '../../../globals';
+import { MercadoPagoService } from '../../services/mercado-pago.service';
+import { InterfacesService } from '../../services/interfaces.service';
 
 export interface UserData {
   nome: string;
@@ -39,11 +40,11 @@ export interface UserData {
     ListboxModule,
     MatListModule, MatButtonModule, MatProgressSpinnerModule,
     NgxMaskDirective],
-    providers:[],
-  templateUrl: './service.component.html',
-  styleUrl: './service.component.scss'
+  providers: [],
+  templateUrl: './pagamentos.component.html',
+  styleUrl: './pagamentos.component.scss'
 })
-export class ServiceComponent implements OnInit {
+export class PagamentoComponent implements OnInit , OnDestroy {
 
   // Dados para o formulário
   displayedColumns: string[] = ['nome', 'status'];
@@ -51,48 +52,43 @@ export class ServiceComponent implements OnInit {
   isLoading = false;
 
   formGroup = new FormGroup({
-    nome: new FormControl<string | undefined>('', [Validators.required]),
-    email: new FormControl<string | undefined>('', [Validators.required]),
-    contato: new FormControl<string | undefined>('', [Validators.required]),
-    servidor: new FormControl<string | undefined>('', [Validators.required]),
-    service: new FormControl<string | undefined>('', [Validators.required]),
-    description: new FormControl<string | undefined>('', [Validators.required]),
+    hashPagamento: new FormControl<string>('', [Validators.required]),
   })
 
-  constructor(private request: RequestService, private toastr: ToastrService) { }
+  registrarUserForm = new FormGroup({
+    acessoCodigo: new FormControl<string>('', [Validators.required]),
+    interface: new FormControl<string>('', [Validators.required]),   
+  });
+
+  constructor(
+    private mercadopago: MercadoPagoService, 
+    public interfaceService: InterfacesService, 
+    private toastr: ToastrService,
+  ) { }
+
+
+  ngOnDestroy(): void {
+    this.formGroup.reset();
+    this.interfaceService.dadosUser = null;
+    this.interfaceService.pagamento = null;
+  }
 
   ngOnInit(): void {
-    this.request.get(API_URL)
-      .subscribe({
-        next: (value: any) => {
-          this.dataSource = (value.rows);
-        },
-      })
+
   }
   // Método para lidar com o envio do formulário
   onSubmit() {
-    this.isLoading = true;
-    this.formGroup.disable();
+    const form = this.formGroup.getRawValue();
+    this.mercadopago.verificarPagamento(form.hashPagamento as string).subscribe({
+      next:(value:any)=>{
+        this.interfaceService.pagamento = value;
+        this.formGroup.disable();
+        this.interfaceService.verificarHashFoiCadastrada(value.id);
+      },error:()=>{
+        this.toastr.error("Pagamento não encontrado!");
+      }
 
-    const requestData = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      mode: 'no-cors',
-      body: JSON.stringify(this.formGroup.getRawValue())
-    };
-
-    fetch(API_URL, requestData as RequestInit)
-      .then(response => {
-        this.toastr.success('Formulário enviado com sucesso'); 
-        this.dataSource.push({nome:this.formGroup.getRawValue().nome as string, status:"EM FILA"})
-      }).catch(error => {
-        this.toastr.error('Error ao tentar enviar formulario'); 
-      }).finally(() => {
-        this.isLoading = false;
-        this.formGroup.enable();
-      });
+    })
 
   }
 

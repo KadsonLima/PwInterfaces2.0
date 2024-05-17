@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import 'ngx-toastr/toastr';
 @import './assets/styles/custom-theme.scss';
 
 html,
@@ -19,6 +19,3 @@ body {
   border-right: 0px !important;
 }
 
-.p-toast {
-  z-index: 10000; 
-}
