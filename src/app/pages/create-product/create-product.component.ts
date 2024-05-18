@@ -41,10 +41,10 @@ export interface UserData {
     MatListModule, MatButtonModule, MatProgressSpinnerModule,
     NgxMaskDirective],
     providers:[],
-  templateUrl: './service.component.html',
-  styleUrl: './service.component.scss'
+  templateUrl: './create-product.component.html',
+  styleUrl: './create-product.component.scss'
 })
-export class ServiceComponent implements OnInit {
+export class CreateProductComponent implements OnInit {
 
   // Dados para o formulário
   displayedColumns: string[] = ['nome', 'status'];
@@ -54,11 +54,10 @@ export class ServiceComponent implements OnInit {
 
   formGroup = new FormGroup({
     nome: new FormControl<string | undefined>('', [Validators.required]),
-    email: new FormControl<string | undefined>('', [Validators.required]),
-    contato: new FormControl<string | undefined>('', [Validators.required]),
-    servidor: new FormControl<string | undefined>('', [Validators.required]),
-    service: new FormControl<string | undefined>('', [Validators.required]),
-    description: new FormControl<string | undefined>('', [Validators.required]),
+    versao: new FormControl<string | undefined>('', [Validators.required]),
+    preco: new FormControl<string | undefined>('', [Validators.required]),
+    images: new FormControl<string | undefined>('', [Validators.required]),
+    imageFront: new FormControl<string | undefined>('', [Validators.required])
   })
 
   constructor(
@@ -69,19 +68,7 @@ export class ServiceComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.request.get(API_URL+"?route=pedidos")
-      .subscribe({
-        next: (value: any) => {
-          this.dataSource = (value.rows);
-        },
-      })
 
-
-      this.responsive.observe((Breakpoints.Small, Breakpoints.XSmall, Breakpoints.Medium))
-      .subscribe(result => {
-        this.classScreen = result.matches ? 'flexSmall' : '';
-      })
-        
     
   }
   // Método para lidar com o envio do formulário
@@ -98,10 +85,9 @@ export class ServiceComponent implements OnInit {
       body: JSON.stringify(this.formGroup.getRawValue())
     };
 
-    fetch(API_URL+"?route=criarPedido", requestData as RequestInit)
+    fetch(API_URL+"?route=criarNovoProduto", requestData as RequestInit)
       .then(response => {
         this.toastr.success('Formulário enviado com sucesso'); 
-        this.dataSource.push({nome:this.formGroup.getRawValue().nome as string, status:"EM FILA"})
       }).catch(error => {
         this.toastr.error('Error ao tentar enviar formulario'); 
       }).finally(() => {

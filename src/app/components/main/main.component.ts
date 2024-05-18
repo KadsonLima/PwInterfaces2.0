@@ -13,6 +13,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { RouterOutlet } from "@angular/router";
 import { CustomSidenavComponent } from "../../core/layout/custom-sidenav/custom-sidenav.component";
 import { MatMenuModule } from "@angular/material/menu";
+import { BreakpointObserver } from "@angular/cdk/layout";
+import {Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: "app-main",
@@ -49,9 +51,18 @@ import { MatMenuModule } from "@angular/material/menu";
 export class MainComponent implements OnInit {
   collapsed = signal<boolean>(false);
   sidenavWidth = computed(() => (this.collapsed() ? "70px" : "200px"));
-  constructor() { }
+  constructor(private responsive: BreakpointObserver) { }
 
   ngOnInit() {
+    this.responsive.observe((Breakpoints.Small, Breakpoints.XSmall, Breakpoints.Medium))
+      .subscribe(result => {
+
+        if (result.matches) {
+          this.collapsed.set(true);
+          return;
+        }
+        this.collapsed.set(false);
+  });
   }
 
 

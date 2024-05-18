@@ -1,4 +1,4 @@
-<div class="flex gap-3" fxLayout="row" fxLayoutAlign="start stretch">
+<div [ngClass]="classScreen" class="flex gap-3" fxLayout="row" fxLayoutAlign="start stretch">
     <!-- Lado esquerdo: Formulário -->
     <div class="flex-1 center">
         <mat-card>
@@ -57,7 +57,7 @@
     </div>
 
     <!-- Lado direito: Tabela -->
-    <div style="width: 20%;">
+    <div [ngClass]="classScreen" class="fila" >
         <mat-card>
             <mat-card-header>
                 <mat-card-title>Fila de Projetos</mat-card-title>

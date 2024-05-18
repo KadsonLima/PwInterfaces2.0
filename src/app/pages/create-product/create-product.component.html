@@ -1,0 +1,51 @@
+<div [ngClass]="classScreen" class="flex gap-3" fxLayout="row" fxLayoutAlign="start stretch">
+    <!-- Lado esquerdo: Formulário -->
+    <div class="flex-1 center">
+        <mat-card>
+            <mat-card-header style="margin-bottom: 30px;">
+                <mat-card-title>Criar novo Produto</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- Seu formulário aqui -->
+                <form class="flex flex-col" [formGroup]="formGroup" (submit)="onSubmit()" [noValidate]="false">
+                    <mat-form-field >
+                        <mat-label>Nome</mat-label>
+                        <input matInput formControlName="nome" placeholder="Nome">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Versão</mat-label>
+                        <input matInput formControlName="versao" placeholder="Versão">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Preço</mat-label>
+                        <input matInput formControlName="preco" placeholder="Preço" >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Imagens</mat-label>
+                        <input matInput formControlName="imagens" placeholder="Links da imagens e separalos por ','">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Imagen de Capa</mat-label>
+                        <input matInput formControlName="imageFront" placeholder="Links da imagen de capa">
+                    </mat-form-field>
+
+                    
+
+                    <!-- Adicione mais campos do formulário conforme necessário -->
+                    <button mat-flat-button color="primary" [disabled]="isLoading">
+                        <ng-container *ngIf="isLoading; else sendButtonContent">
+                          <mat-spinner diameter="20" color="accent"></mat-spinner>
+                        </ng-container>
+                        <ng-template #sendButtonContent>
+                          Enviar
+                        </ng-template>
+                      </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

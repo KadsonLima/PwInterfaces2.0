@@ -1,1 +1,24 @@
-<p>shop works!</p>
+<!-- src/app/product-list/product-list.component.html -->
+<div class="container">
+    <h1>Lista de Produtos</h1>
+    
+    <label for="filter">Filtrar por Tipo:</label>
+    <select id="filter" [(ngModel)]="filterType" (change)="filterProducts()">
+      <option value="">Todos</option>
+      <option value="Type A">Type A</option>
+      <option value="Type B">Type B</option>
+      <option value="Type C">Type C</option>
+    </select>
+    
+    <div class="product-list">
+      <div class="product-item" *ngFor="let product of filteredProducts">
+        <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image">
+        <div class="product-info">
+          <h2>{{ product.name }}</h2>
+          <p>Preço: {{ product.price | currency:'USD':true }}</p>
+          <p>Tipo: {{ product.type }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

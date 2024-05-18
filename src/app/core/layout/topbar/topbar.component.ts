@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-topbar',
@@ -11,9 +12,17 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class TopbarComponent implements OnInit {
   open: boolean = true;
   @Output() isOpen: EventEmitter<boolean> = new EventEmitter<boolean>()
-  constructor() { }
+  constructor(private responsive: BreakpointObserver) { }
 
   ngOnInit() {
+    this.responsive.observe(Breakpoints.Small)
+    .subscribe(result => {
+
+      if (result.matches) {
+        this.toggle();
+      }
+
+    });
   }
 
   toggle() {

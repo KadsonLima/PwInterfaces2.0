@@ -5,23 +5,15 @@ import { ServiceComponent } from "./pages/service/service.component";
 import { GalleryComponent } from "./pages/gallery/gallery.component";
 import { ShopComponent } from "./pages/shop/shop.component";
 import { PagamentoComponent } from "./pages/pagamentos/pagamentos.component";
+import { CreateProductComponent } from "./pages/create-product/create-product.component";
 
 export const routes: Routes = [
+
   {
     path: "",
-    pathMatch: "full",
-    redirectTo: "app",
-  },
-  {
-    path: "app",
     loadComponent: () =>
       import("./components/main/main.component").then((c) => c.MainComponent),
     children: [
-      {
-        path: "",
-        redirectTo: "overview",
-        pathMatch:'full'
-      },
       {
         path: "home",
         component: HomeComponent
@@ -41,6 +33,10 @@ export const routes: Routes = [
       {
         path: "pagamento",
         component:PagamentoComponent
+      },
+      {
+        path: "criarProduto",
+        component:CreateProductComponent
       },
     ],
   },
