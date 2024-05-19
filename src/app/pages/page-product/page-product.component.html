@@ -1,0 +1,21 @@
+<div class="content flex">
+    <p-galleria  [value]="images" [showItemNavigators]="true"  [responsiveOptions]="responsiveOptions" [circular]="true"  [containerStyle]="{ 'max-width': '1980px' }">
+        <ng-template  pTemplate="item" let-item>
+            <img [src]="item" style="width: 100%; display: block;" />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div  class="grid ">
+                <img [src]="item" style="display: block; height: 60px;" />
+            </div>
+        </ng-template>
+    </p-galleria>
+    <div class="product-card flex-1" style="height: max-content;">
+        <img [src]="product.image" alt="{{ product.nome }}" class="product-image">
+        <div class="product-details">
+            <h2>{{ product.nome }}</h2>
+            <p>{{ product.versao }}</p>
+            <p class="product-price">{{ product.preco | currency:'BRL':true }}</p>
+            <button (click)="buyProduct()">Comprar</button>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import { GalleryComponent } from "./pages/gallery/gallery.component";
 import { ShopComponent } from "./pages/shop/shop.component";
 import { PagamentoComponent } from "./pages/pagamentos/pagamentos.component";
 import { CreateProductComponent } from "./pages/create-product/create-product.component";
+import { PageProductComponent } from "./pages/page-product/page-product.component";
 
 export const routes: Routes = [
 
@@ -37,6 +38,10 @@ export const routes: Routes = [
       {
         path: "criarProduto",
         component:CreateProductComponent
+      },
+      {
+        path: "interface",
+        component:PageProductComponent
       },
     ],
   },

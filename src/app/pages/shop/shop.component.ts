@@ -9,6 +9,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -18,14 +19,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone:true,
 })
 export class ShopComponent implements OnInit {
-  products:any[] = [];
-  filteredProducts:any = [];
+  products:Produto[] = [];
+  filteredProducts:Produto[] = [];
   filterType: string = '';
   isLoading = false;
 
   constructor(
     private productService: ProductService,
     public requestService:RequestService,
+    private router:Router
 
   ) { }
 
@@ -47,9 +49,21 @@ export class ShopComponent implements OnInit {
 
   filterProducts() {
     if (this.filterType) {
-      this.filteredProducts = this.products.filter(product => product.type === this.filterType);
+      this.filteredProducts = this.products.filter(product => product.versao === this.filterType);
     } else {
       this.filteredProducts = this.products;
     }
   }
+
+  viewProduct(product: any) {
+    this.router.navigate(['/interface'],  { state: { product } });
+  }
+}
+
+export interface Produto{
+  nome:string,
+  preco:number,
+  versao:string,
+  image:string,
+  images:string,
 }
