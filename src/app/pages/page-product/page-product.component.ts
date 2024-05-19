@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
-import { Produto } from '../shop/shop.component';
-import { PhotoService } from '../../services/photo.service';
 import { GalleriaModule } from 'primeng/galleria';
+import { PhotoService } from '../../services/photo.service';
+import { Produto } from '../shop/shop.component';
 
 @Component({
   selector: 'app-page-product',
   standalone: true,
-  imports: [CommonModule, GalleryModule, GalleriaModule],
+  imports: [CommonModule,  GalleriaModule],
   templateUrl: './page-product.component.html',
   styleUrl: './page-product.component.scss'
 })
