@@ -77,7 +77,7 @@ export class ServiceComponent implements OnInit {
       })
 
 
-      this.responsive.observe((Breakpoints.Small, Breakpoints.XSmall, Breakpoints.Medium))
+      this.responsive.observe((Breakpoints.Small, Breakpoints.XSmall))
       .subscribe(result => {
         this.classScreen = result.matches ? 'flexSmall' : '';
       })
