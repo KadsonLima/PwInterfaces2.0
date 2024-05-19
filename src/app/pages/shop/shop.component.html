@@ -1,22 +1,25 @@
 <!-- src/app/product-list/product-list.component.html -->
 <div class="container">
     <h1>Lista de Produtos</h1>
-    
     <label for="filter">Filtrar por Tipo:</label>
-    <select id="filter" [(ngModel)]="filterType" (change)="filterProducts()">
-      <option value="">Todos</option>
-      <option value="Type A">Type A</option>
-      <option value="Type B">Type B</option>
-      <option value="Type C">Type C</option>
-    </select>
+    <mat-select matInput id="filter" [(ngModel)]="filterType" >
+      <mat-option [value]="''">Todos</mat-option>
+      <mat-option [value]="'Type A'">Type A</mat-option>
+      <mat-option [value]="'Type B'">Type B</mat-option>
+      <mat-option [value]="'Type C'">Type C</mat-option>
+    </mat-select>
     
+    <div class="loading" *ngIf="isLoading;" >
+      <mat-spinner diameter="100" color="accent"></mat-spinner>
+    </div>
+
     <div class="product-list">
       <div class="product-item" *ngFor="let product of filteredProducts">
-        <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image">
+        <img src={{product.image}} alt="{{ product.nome }}" class="product-image">
         <div class="product-info">
-          <h2>{{ product.name }}</h2>
-          <p>Preço: {{ product.price | currency:'USD':true }}</p>
-          <p>Tipo: {{ product.type }}</p>
+          <h2>{{ product.nome }}</h2>
+          <p>Preço: {{ product.preco | currency:'BRL':true }}</p>
+          <p>Versão: {{ product.versao }}</p>
         </div>
       </div>
     </div>
